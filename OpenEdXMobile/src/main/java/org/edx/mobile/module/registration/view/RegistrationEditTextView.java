@@ -116,7 +116,7 @@ class RegistrationEditTextView implements IRegistrationFieldView {
             mErrorTextView.setText(result);
             mErrorTextView.setVisibility(View.VISIBLE);
             // Add error message in a11y content for mTextInputLayout
-            mTextInputLayout.setContentDescription(String.format("%s. %s. %s.", mField.getLabel(), mField.getInstructions(), error));
+            mTextInputLayout.setContentDescription(String.format("%s. %s. Error, %s.", mField.getLabel(), mField.getInstructions(), error));
         }
         else {
             logger.warn("error message not provided, so not informing the user about this error");
