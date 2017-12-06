@@ -203,4 +203,9 @@ class RegistrationEditTextView implements IRegistrationFieldView {
     public void setActionListener(IActionListener actionListener) {
         // no actions for this field
     }
+
+    @Override
+    public View getOnErrorFocusView() {
+        return mTextInputLayout;
+    }
 }

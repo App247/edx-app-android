@@ -273,7 +273,7 @@ public class RegisterActivity extends BaseFragmentActivity
                 if (!hasError) {
                     // this is the first input field with error,
                     // so focus on it after showing the popup
-                    showErrorPopup(v.getView());
+                    showErrorPopup(v.getOnErrorFocusView());
                 }
                 hasError = true;
             }
@@ -396,6 +396,7 @@ public class RegisterActivity extends BaseFragmentActivity
 
         // View needs a focus
         view.requestFocus();
+//        view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 
         // Determine if scroll needs to happen
         final Rect scrollBounds = new Rect();

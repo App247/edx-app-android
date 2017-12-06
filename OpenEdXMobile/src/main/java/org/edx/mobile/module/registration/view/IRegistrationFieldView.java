@@ -23,6 +23,7 @@ public interface IRegistrationFieldView {
     boolean isValidInput();
     void setEnabled(boolean enabled);
     void setActionListener(IActionListener actionListener);
+    View getOnErrorFocusView();
 
     /**
      * used to programmatically set the value
