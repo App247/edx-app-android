@@ -4,10 +4,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewCompat;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -69,6 +71,31 @@ class RegistrationEditTextView implements IRegistrationFieldView {
         mTextInputEditText.setContentDescription(mField.getLabel());
         ViewCompat.setImportantForAccessibility(mInstructionsTextView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
         ViewCompat.setImportantForAccessibility(mErrorTextView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
+
+        // Add text change listener
+        mTextInputEditText.addTextChangedListener(new TextWatcher() {
+            // TextWatcher events also triggers at time of registration of listener. For their
+            // workaround this flag is required to check if the text is changed by user or not. This
+            // issue has also been discussed on stackoverflow with different questions.
+            // For e.g. https://stackoverflow.com/questions/33257937/edittext-addtextchangedlistener-only-for-user-input/33258065#33258065
+            private boolean isChangedByUser = false;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!isChangedByUser) {
+                    isChangedByUser = true;
+                    return;
+                }
+                isValidInput();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     public boolean setRawValue(String value){
