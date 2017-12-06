@@ -54,6 +54,15 @@ public class RegistrationOptionSpinner extends AppCompatSpinner {
         return value;
     }
 
+    public @Nullable String getSelectedItemName() {
+        String value = null;
+        RegistrationOption selected = (RegistrationOption)getSelectedItem();
+        if (selected != null) {
+            value = selected.getName();
+        }
+        return value;
+    }
+
     private int getAdapterPosition(@Nullable String input) {
         int posiiton = -1;
         if (input != null && adapter != null) {

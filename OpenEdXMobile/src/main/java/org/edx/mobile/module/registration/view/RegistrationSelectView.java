@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.google.gson.JsonElement;
@@ -61,8 +62,26 @@ class RegistrationSelectView implements IRegistrationFieldView {
         mInputView.setTag(mField.getName());
 
         // Do a11y adjustment
+        mInputView.setContentDescription(String.format("%s. %s.", mInputView.getSelectedItemName(), mField.getInstructions()));
         ViewCompat.setImportantForAccessibility(mInstructionsView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
         ViewCompat.setImportantForAccessibility(mErrorView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
+
+        mInputView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private boolean isChangedByUser = false;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!isChangedByUser) {
+                    isChangedByUser = true;
+                    return;
+                }
+                isValidInput();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -111,6 +130,9 @@ class RegistrationSelectView implements IRegistrationFieldView {
         if (error != null && !error.isEmpty()) {
             mErrorView.setVisibility(View.VISIBLE);
             mErrorView.setText(error);
+
+            mInputView.setContentDescription(String.format("%s. %s. Error, %s.",
+                    mInputView.getSelectedItemName(), mField.getInstructions(), error));
         }
         else {
             logger.warn("error message not provided, so not informing the user about this error");
@@ -121,6 +143,8 @@ class RegistrationSelectView implements IRegistrationFieldView {
     public boolean isValidInput() {
         // hide error as we are re-validating the input
         mErrorView.setVisibility(View.GONE);
+
+        mInputView.setContentDescription(String.format("%s. %s.", mInputView.getSelectedItemName(), mField.getInstructions()));
 
         // check if this is required field and has an input value
         if (mField.isRequired() && !hasValue()) {
