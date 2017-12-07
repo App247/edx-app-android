@@ -94,7 +94,8 @@ public class RegistrationOptionSpinner extends AppCompatSpinner {
         There's an open StackOverflow issue on this as well:
         https://stackoverflow.com/questions/44708495/how-to-prevent-spinner-announcement-when-initialized
          */
-        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
+                || event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
             super.onInitializeAccessibilityEvent(event);
         }
     }
