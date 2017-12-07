@@ -500,6 +500,8 @@
     <!-- Registration error -->
     <string name="registration_error_title">Registration Error</string>
     <string name="registration_error_message">Update the highlighted fields and try again.</string>
+    <!-- accessibility label to specify that error message will be read out after reading this error tag -->
+    <string name="a11y_error_tag">Error</string>
 
     <!-- data charges may apply dialog text -->
     <!-- Alert dialog title shown for users whose in app data is zero rated, when they follow a link outside the app -->

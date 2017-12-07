@@ -131,8 +131,9 @@ class RegistrationSelectView implements IRegistrationFieldView {
             mErrorView.setVisibility(View.VISIBLE);
             mErrorView.setText(error);
 
-            mInputView.setContentDescription(String.format("%s. %s. Error, %s.",
-                    mInputView.getSelectedItemName(), mField.getInstructions(), error));
+            final String errorTag = mInputView.getResources().getString(R.string.a11y_error_tag);
+            mInputView.setContentDescription(String.format("%s. %s. %s, %s.",
+                    mInputView.getSelectedItemName(), mField.getInstructions(), errorTag, error));
         }
         else {
             logger.warn("error message not provided, so not informing the user about this error");

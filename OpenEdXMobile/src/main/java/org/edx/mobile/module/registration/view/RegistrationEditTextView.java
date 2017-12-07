@@ -74,11 +74,15 @@ class RegistrationEditTextView implements IRegistrationFieldView {
 
         // Add text change listener
         mTextInputEditText.addTextChangedListener(new TextWatcher() {
-            // TextWatcher events also triggers at time of registration of listener. For their
-            // workaround this flag is required to check if the text is changed by user or not. This
-            // issue has also been discussed on stackoverflow with different questions.
-            // For e.g. https://stackoverflow.com/questions/33257937/edittext-addtextchangedlistener-only-for-user-input/33258065#33258065
+            /*
+             TextWatcher events also trigger at time of registration of this listener. Which we
+             don't want in this case. So, to handle it, a flag is required to check if the text
+             is being changed by the user or not.
+             This issue has also been discussed on stackoverflow through different questions.
+             For e.g. https://stackoverflow.com/questions/33257937/edittext-addtextchangedlistener-only-for-user-input/33258065#33258065
+            */
             private boolean isChangedByUser = false;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -143,7 +147,9 @@ class RegistrationEditTextView implements IRegistrationFieldView {
             mErrorTextView.setText(result);
             mErrorTextView.setVisibility(View.VISIBLE);
             // Add error message in a11y content for mTextInputLayout
-            mTextInputLayout.setContentDescription(String.format("%s. %s. Error, %s.", mField.getLabel(), mField.getInstructions(), error));
+            final String errorTag = mTextInputLayout.getResources().getString(R.string.a11y_error_tag);
+            mTextInputLayout.setContentDescription(String.format("%s. %s. %s, %s.",
+                    mField.getLabel(), mField.getInstructions(), errorTag, error));
         }
         else {
             logger.warn("error message not provided, so not informing the user about this error");
