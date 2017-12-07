@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ import retrofit2.Call;
 
 public class RegisterActivity extends BaseFragmentActivity
         implements SocialLoginDelegate.MobileLoginCallback {
+    private static final int ACCESSIBILITY_FOCUS_DELAY_MS = 500;
 
     private ViewGroup createAccountBtn;
     private LinearLayout requiredFieldsLayout;
@@ -393,10 +395,19 @@ public class RegisterActivity extends BaseFragmentActivity
      * @param view
      */
     public static void scrollToView(final ScrollView scrollView, final View view) {
-
-        // View needs a focus
-        view.requestFocus();
-//        view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+        /*
+        The delayed focus has been added so that TalkBack reads the proper view's description that
+        we want focus on. For example in case of {@link RegistrationEditText} we want accessibility
+        focus on TIL when an error is displayed instead of the EditText within it, which can only
+        be achieved through this delay.
+         */
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.requestFocus();
+                view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            }
+        }, ACCESSIBILITY_FOCUS_DELAY_MS);
 
         // Determine if scroll needs to happen
         final Rect scrollBounds = new Rect();
