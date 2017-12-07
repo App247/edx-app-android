@@ -79,7 +79,7 @@ class RegistrationEditTextView implements IRegistrationFieldView {
              don't want in this case. So, to handle it, a flag is required to check if the text
              is being changed by the user or not.
              This issue has also been discussed on stackoverflow through different questions.
-             For e.g. https://stackoverflow.com/questions/33257937/edittext-addtextchangedlistener-only-for-user-input/33258065#33258065
+             e.g. https://stackoverflow.com/questions/33257937/edittext-addtextchangedlistener-only-for-user-input/33258065#33258065
             */
             private boolean isChangedByUser = false;
 
@@ -147,7 +147,7 @@ class RegistrationEditTextView implements IRegistrationFieldView {
             mErrorTextView.setText(result);
             mErrorTextView.setVisibility(View.VISIBLE);
             // Add error message in a11y content for mTextInputLayout
-            final String errorTag = mTextInputLayout.getResources().getString(R.string.a11y_error_tag);
+            final String errorTag = mTextInputLayout.getResources().getString(R.string.label_error);
             mTextInputLayout.setContentDescription(String.format("%s. %s. %s, %s.",
                     mField.getLabel(), mField.getInstructions(), errorTag, error));
         }

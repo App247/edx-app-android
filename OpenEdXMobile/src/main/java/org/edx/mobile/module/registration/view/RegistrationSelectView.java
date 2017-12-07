@@ -131,7 +131,7 @@ class RegistrationSelectView implements IRegistrationFieldView {
             mErrorView.setVisibility(View.VISIBLE);
             mErrorView.setText(error);
 
-            final String errorTag = mInputView.getResources().getString(R.string.a11y_error_tag);
+            final String errorTag = mInputView.getResources().getString(R.string.label_error);
             mInputView.setContentDescription(String.format("%s. %s. %s, %s.",
                     mInputView.getSelectedItemName(), mField.getInstructions(), errorTag, error));
         }

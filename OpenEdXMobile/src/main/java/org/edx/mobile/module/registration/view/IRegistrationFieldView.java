@@ -23,7 +23,12 @@ public interface IRegistrationFieldView {
     boolean isValidInput();
     void setEnabled(boolean enabled);
     void setActionListener(IActionListener actionListener);
-    // Returns the specific child view which should be focused when this view is validated false.
+
+    /**
+     * Get the specific child view which should be focused when the error child view is visible.
+     *
+     * @return Child view which needs to be focused in case of error.
+     */
     View getOnErrorFocusView();
 
     /**
