@@ -49,6 +49,7 @@ import org.edx.mobile.util.AppStoreUtils;
 import org.edx.mobile.util.IntentFactory;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.ResourceUtil;
+import org.edx.mobile.util.SoftKeyboardUtil;
 import org.edx.mobile.util.images.ErrorUtils;
 import org.edx.mobile.view.custom.DividerWithTextView;
 
@@ -138,6 +139,7 @@ public class RegisterActivity extends BaseFragmentActivity
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoftKeyboardUtil.hide(RegisterActivity.this);
                 createAccount();
             }
         });
