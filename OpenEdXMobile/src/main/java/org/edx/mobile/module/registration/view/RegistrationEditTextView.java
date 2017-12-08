@@ -211,6 +211,18 @@ class RegistrationEditTextView implements IRegistrationFieldView {
     }
 
     @Override
+    public void disableFocusability() {
+        mTextInputEditText.setFocusable(false);
+        mTextInputEditText.setFocusableInTouchMode(false);
+    }
+
+    @Override
+    public void enableFocusability() {
+        mTextInputEditText.setFocusable(true);
+        mTextInputEditText.setFocusableInTouchMode(true);
+    }
+
+    @Override
     public View getOnErrorFocusView() {
         return mTextInputLayout;
     }

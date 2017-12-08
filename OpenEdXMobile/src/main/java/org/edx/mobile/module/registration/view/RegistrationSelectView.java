@@ -15,7 +15,7 @@ import org.edx.mobile.logger.Logger;
 import org.edx.mobile.module.registration.model.RegistrationFormField;
 import org.edx.mobile.module.registration.model.RegistrationOption;
 
-class RegistrationSelectView implements IRegistrationFieldView {
+public class RegistrationSelectView implements IRegistrationFieldView {
 
     protected static final Logger logger = new Logger(RegistrationEditTextView.class);
     private RegistrationFormField mField;
@@ -23,6 +23,8 @@ class RegistrationSelectView implements IRegistrationFieldView {
     private RegistrationOptionSpinner mInputView;
     private TextView mInstructionsView;
     private TextView mErrorView;
+    @Nullable
+    private OnItemSelectedListener onItemSelectedListener;
 
     public RegistrationSelectView(RegistrationFormField field, View view) {
         // create and configure view and save it to an instance variable
@@ -75,6 +77,9 @@ class RegistrationSelectView implements IRegistrationFieldView {
                     return;
                 }
                 isValidInput();
+                if (onItemSelectedListener != null) {
+                    onItemSelectedListener.onItemSelected();
+                }
             }
 
             @Override
@@ -82,6 +87,10 @@ class RegistrationSelectView implements IRegistrationFieldView {
 
             }
         });
+    }
+
+    public void setOnItemSelectedListener(@Nullable OnItemSelectedListener mOnItemSelectedListener) {
+        this.onItemSelectedListener = mOnItemSelectedListener;
     }
 
     @Override
@@ -174,7 +183,21 @@ class RegistrationSelectView implements IRegistrationFieldView {
     }
 
     @Override
+    public void disableFocusability() {
+
+    }
+
+    @Override
+    public void enableFocusability() {
+
+    }
+
+    @Override
     public View getOnErrorFocusView() {
         return mInputView;
+    }
+
+    public interface OnItemSelectedListener {
+        void onItemSelected();
     }
 }

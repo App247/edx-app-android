@@ -122,6 +122,16 @@ class RegistrationAgreementView implements IRegistrationFieldView {
     }
 
     @Override
+    public void disableFocusability() {
+
+    }
+
+    @Override
+    public void enableFocusability() {
+
+    }
+
+    @Override
     public View getOnErrorFocusView() {
         return mInputView;
     }

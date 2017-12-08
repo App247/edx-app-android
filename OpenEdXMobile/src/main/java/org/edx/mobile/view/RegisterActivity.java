@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -41,6 +42,7 @@ import org.edx.mobile.module.registration.model.RegistrationDescription;
 import org.edx.mobile.module.registration.model.RegistrationFieldType;
 import org.edx.mobile.module.registration.model.RegistrationFormField;
 import org.edx.mobile.module.registration.view.IRegistrationFieldView;
+import org.edx.mobile.module.registration.view.RegistrationSelectView;
 import org.edx.mobile.social.SocialFactory;
 import org.edx.mobile.social.SocialLoginDelegate;
 import org.edx.mobile.task.RegisterTask;
@@ -61,7 +63,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 
 public class RegisterActivity extends BaseFragmentActivity
-        implements SocialLoginDelegate.MobileLoginCallback {
+        implements SocialLoginDelegate.MobileLoginCallback, RegistrationSelectView.OnItemSelectedListener {
     private static final int ACCESSIBILITY_FOCUS_DELAY_MS = 500;
 
     private ViewGroup createAccountBtn;
@@ -230,6 +232,11 @@ public class RegisterActivity extends BaseFragmentActivity
                 } else {
                     IRegistrationFieldView fieldView = IRegistrationFieldView.Factory.getInstance(inflater, field);
                     if (fieldView != null) mFieldViews.add(fieldView);
+                    // Add item selected listener for spinner views
+                    if (field.getFieldType().equals(RegistrationFieldType.MULTI)) {
+                        RegistrationSelectView selectView = (RegistrationSelectView) fieldView;
+                        selectView.setOnItemSelectedListener(this);
+                    }
                 }
             }
 
@@ -633,5 +640,20 @@ public class RegisterActivity extends BaseFragmentActivity
         googleButton.setClickable(enable);
 
         return true;
+    }
+
+    @Override
+    public void onItemSelected() {
+        for (IRegistrationFieldView fieldView : mFieldViews) {
+            fieldView.disableFocusability();
+        }
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (IRegistrationFieldView fieldView : mFieldViews) {
+                    fieldView.enableFocusability();
+                }
+            }
+        }, ACCESSIBILITY_FOCUS_DELAY_MS);
     }
 }

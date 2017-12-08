@@ -23,6 +23,8 @@ public interface IRegistrationFieldView {
     boolean isValidInput();
     void setEnabled(boolean enabled);
     void setActionListener(IActionListener actionListener);
+    void disableFocusability();
+    void enableFocusability();
 
     /**
      * Get the specific child view which should be focused when the error child view is visible.
